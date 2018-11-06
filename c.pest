@@ -1,0 +1,14 @@
+WHITESPACE = _{NEWLINE}
+
+keyword = {"int"}
+value = {ASCII_ALPHANUMERIC+}
+
+variable_name = {ASCII_ALPHANUMERIC+}
+variable_declaration = {keyword ~ " "+ ~ variable_name ~ " "+ ~ "=" ~ " "+ ~ value ~ ";"}
+
+return_statement = {"return" ~ " "+ ~ value ~ ";"}
+
+function_name = {ASCII_ALPHANUMERIC+}
+function = {keyword ~ " "+ ~ function_name ~ " "* ~ "()" ~ " "+ ~ "{"+ ~ " "+ ~ return_statement ~ "}"}
+
+file = {SOI ~ function* ~ EOI}
