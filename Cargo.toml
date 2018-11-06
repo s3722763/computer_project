@@ -1,0 +1,9 @@
+[package]
+name = "computer_project"
+version = "0.1.0"
+authors = ["Daniel Miskimmin <theman123e@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+pest = "2.0"
+pest_derive = "2.0"
