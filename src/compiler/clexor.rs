@@ -2,10 +2,17 @@ use pest::Parser;
 use pest::iterators::Pairs;
 
 use std::fs;
+use std::fmt;
 
 #[derive(Parser)]
 #[grammar="../c.pest"]
 pub struct CParser;
+
+pub struct Value {
+    pub keyword: Keyword,
+    pub value: String,
+    pub is_constant: bool
+}
 
 #[derive(PartialEq)]
 pub enum Keyword{
@@ -14,13 +21,25 @@ pub enum Keyword{
 }
 
 pub struct CFunction {
-    keyword: Keyword,
-    name: String,
-    return_value: String,
+    pub keyword: Keyword,
+    pub name: String,
+    pub return_value: String,
 }
 
 pub struct KeywordError {
     reason: String,
+}
+
+impl fmt::Display for Keyword {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        let mut string_rep = "None";
+
+        if *self == Keyword::Int {
+            string_rep = "int";
+        }
+
+        write!(f, "{}", string_rep)
+    }
 }
 
 impl KeywordError {
@@ -102,8 +121,7 @@ fn parse_function(function_rules: Pairs<Rule>) -> CFunction{
 
     function
 }
-
-pub fn parse(file_path: &str) {
+pub fn parse(file_path: &str) -> Vec<CFunction>{
     let c_file = fs::read_to_string(file_path).expect("Could not read file");
     let parse_file = CParser::parse(Rule::file, &c_file).expect("Could not parse").next().unwrap();
     let mut list_of_functions: Vec<CFunction> = Vec::new();
@@ -118,4 +136,6 @@ pub fn parse(file_path: &str) {
             _ => {}
         }
     }
+
+    list_of_functions
 }

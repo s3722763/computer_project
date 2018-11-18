@@ -7,5 +7,5 @@ extern crate pest_derive;
 mod compiler;
 
 fn main() {
-    compiler::clexor::parse("./program/main.c");
+    compiler::compile("./program/main.c");
 }
