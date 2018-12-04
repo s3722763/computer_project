@@ -8,22 +8,25 @@ use std::fmt;
 #[grammar="../c.pest"]
 pub struct CParser;
 
+#[derive(Clone)]
 pub struct Value {
     pub keyword: Keyword,
     pub value: String,
     pub is_constant: bool
 }
 
-#[derive(PartialEq)]
+#[derive(PartialEq, Clone)]
 pub enum Keyword{
     Int,
+    Void,
     None
 }
 
+#[derive(Clone)]
 pub struct CFunction {
     pub keyword: Keyword,
     pub name: String,
-    pub return_value: String,
+    pub return_value: Value
 }
 
 pub struct KeywordError {
@@ -36,9 +39,23 @@ impl fmt::Display for Keyword {
 
         if *self == Keyword::Int {
             string_rep = "int";
+        } else if *self == Keyword::Void {
+            string_rep = "void";
         }
 
         write!(f, "{}", string_rep)
+    }
+}
+
+impl Value {
+    pub fn new() -> Value {
+        let result = Value {
+            keyword: Keyword::None,
+            value: String::from(""),
+            is_constant: false
+        };
+
+        result
     }
 }
 
@@ -54,18 +71,20 @@ impl CFunction {
         let result = CFunction {
             keyword: Keyword::None,
             name: String::from(""),
-            return_value: String::from("")
+            return_value: Value::new()
         };
 
         result
     }
 }
 
-fn get_keyword(keyword: &str) -> Result<Keyword, KeywordError>{
+fn get_keyword(keyword: &str) -> Result<Keyword, KeywordError> {
     let result: Result<Keyword, KeywordError>;
 
     if keyword == "int" {
         result = Ok(Keyword::Int);
+    } else if keyword == "void" {
+        result = Ok(Keyword::Void);
     } else {
         let reason = format!("{} {} {}", "Keyword", keyword,"does not exist");
         let error = KeywordError::new(reason);
@@ -73,6 +92,18 @@ fn get_keyword(keyword: &str) -> Result<Keyword, KeywordError>{
     }
 
     result
+}
+
+pub fn get_keyword_str(keyword: Keyword) -> String {
+    let result: &str;
+
+    match keyword {
+        Keyword::Int => result = "int",
+        Keyword::Void => result = "void",
+        _ => result = "err"
+    };
+
+    result.to_string()
 }
 
 fn parse_function(function_rules: Pairs<Rule>) -> CFunction{
@@ -111,7 +142,9 @@ fn parse_function(function_rules: Pairs<Rule>) -> CFunction{
             }
             Rule::return_statement => {
                 let value = pair.into_inner().as_str();
-                function.return_value = value.to_string();
+                function.return_value.value = value.to_string();
+                function.return_value.is_constant = true;
+                function.return_value.keyword = Keyword::Int;
             }
             _ =>{
                 println!("{}", "Invalid rule");
@@ -130,7 +163,7 @@ pub fn parse(file_path: &str) -> Vec<CFunction>{
         match line.as_rule() {
             Rule::function => {
                 let function = parse_function(line.into_inner());
-                println!("Name: {}\tReturn: {}", function.name, function.return_value);
+                //println!("Name: {}\tReturn: {}", function.name, function.return_value.value);
                 list_of_functions.push(function);
             }
             _ => {}
