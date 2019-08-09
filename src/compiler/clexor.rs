@@ -133,10 +133,10 @@ fn parse_function(function_rules: Pairs<Rule>) -> CFunction{
             }
             Rule::function_name => {
                 let value = pair.as_str();
-                if function.name == "" {
+                if function.name.as_str() == "" {
                     function.name = value.to_string();
                 } else {
-                    println!("{}", "Invalid function name");
+                    println!("{}", "Function name already set");
                     error_count = error_count + 1;
                 }
             }
@@ -145,6 +145,10 @@ fn parse_function(function_rules: Pairs<Rule>) -> CFunction{
                 function.return_value.value = value.to_string();
                 function.return_value.is_constant = true;
                 function.return_value.keyword = Keyword::Int;
+            }
+            Rule::operation => {
+                let operation = pair.into_inner().as_str();
+                println!("Operation: {}", operation);
             }
             _ =>{
                 println!("{}", "Invalid rule");

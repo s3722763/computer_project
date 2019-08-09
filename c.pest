@@ -6,9 +6,17 @@ value = {ASCII_ALPHANUMERIC+}
 variable_name = {ASCII_ALPHANUMERIC+}
 variable_declaration = {keyword ~ " "+ ~ variable_name ~ " "+ ~ "=" ~ " "+ ~ value ~ ";"}
 
-return_statement = {"return" ~ " "+ ~ value ~ ";"}
+return_statement = {"return" ~ " "+ ~ value}
 
 function_name = {ASCII_ALPHANUMERIC+}
-function = {keyword ~ " "+ ~ function_name ~ " "* ~ "()" ~ " "+ ~ "{"+ ~ " "+ ~ return_statement ~ "}"}
+function = {keyword ~ " "+ ~ function_name ~ " "* ~ "()" ~ " "+ ~ "{"+ ~ (" "+ ~ statement)* ~ "}"}
+
+negation = {"-" ~ value}
+complement = {"~" ~ (variable_name | value)}
+logical_negation = {"!" ~ (variable_name | value)}
+
+operation = {negation | complement | logical_negation}
+
+statement = {(operation | return_statement) ~ " "* ~";"}
 
 file = {SOI ~ function* ~ EOI}
