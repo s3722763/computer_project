@@ -1,3 +1,5 @@
+use super::ast::{ASTNode, NodeType};
+
 use pest::Parser;
 use pest::iterators::Pairs;
 
@@ -5,7 +7,7 @@ use std::fs;
 use std::fmt;
 
 #[derive(Parser)]
-#[grammar="../c.pest"]
+#[grammar="../lexor/c.pest"]
 pub struct CParser;
 
 #[derive(Clone)]
@@ -140,15 +142,9 @@ fn parse_function(function_rules: Pairs<Rule>) -> CFunction{
                     error_count = error_count + 1;
                 }
             }
-            Rule::return_statement => {
-                let value = pair.into_inner().as_str();
-                function.return_value.value = value.to_string();
-                function.return_value.is_constant = true;
-                function.return_value.keyword = Keyword::Int;
-            }
-            Rule::operation => {
-                let operation = pair.into_inner().as_str();
-                println!("Operation: {}", operation);
+            Rule::statement => {
+                parse_statement(pair.into_inner());
+                //parse_statement();
             }
             _ =>{
                 println!("{}", "Invalid rule");
@@ -158,6 +154,33 @@ fn parse_function(function_rules: Pairs<Rule>) -> CFunction{
 
     function
 }
+
+fn parse_statement(pairs: Pairs<Rule>) -> ASTNode {
+    let mut statement_node = ASTNode::new(NodeType::Statement, None);
+
+    for pair in pairs {
+        match pair.as_rule() {
+            Rule::operation => {},
+            Rule::return_statement => {
+                let return_value = String::from(pair.as_str());
+                let node = ASTNode::new(NodeType::Return, Some(return_value));
+
+                statement_node.AddNode(node);
+
+            },
+            _ => {}
+        }
+    }
+
+    statement_node
+}
+
+fn parse_operation(pairs: Pairs<Rule>) -> ASTNode {
+    let mut node = ASTNode::new(NodeType::Operation, None);
+
+    node
+}
+
 pub fn parse(file_path: &str) -> Vec<CFunction>{
     let c_file = fs::read_to_string(file_path).expect("Could not read file");
     let parse_file = CParser::parse(Rule::file, &c_file).expect("Could not parse").next().unwrap();
@@ -169,7 +192,7 @@ pub fn parse(file_path: &str) -> Vec<CFunction>{
                 let function = parse_function(line.into_inner());
                 //println!("Name: {}\tReturn: {}", function.name, function.return_value.value);
                 list_of_functions.push(function);
-            }
+            },
             _ => {}
         }
     }

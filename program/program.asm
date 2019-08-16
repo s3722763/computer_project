@@ -1,3 +1,3 @@
 main:
-mov	%eax, $2
+mov	%eax, $
 ret

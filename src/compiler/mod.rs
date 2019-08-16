@@ -1,15 +1,16 @@
 pub mod clexor;
 pub mod ast;
 
-pub fn compile(file_path: &str) -> String{
+pub fn compile(file_path: &str) {
     let functions = clexor::parse(file_path);
 
-    let ast_tree = ast::lex_to_ast(functions.get(0).unwrap().clone());
-    let assembly_code = compile_ast(ast_tree);
+    //let ast_tree = ast::lex_to_ast(functions.get(0).unwrap().clone());
+    //let assembly_code = compile_ast(ast_tree);
 
-    assembly_code
+    //assembly_code
 }
 
+/*
 fn compile_ast(function_tree: Vec<Box<ast::ASTNode>>) -> String{
     let mut code = String::new();
 
@@ -27,3 +28,4 @@ fn compile_ast(function_tree: Vec<Box<ast::ASTNode>>) -> String{
 
     code
 }
+*/

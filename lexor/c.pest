@@ -9,7 +9,7 @@ variable_declaration = {keyword ~ " "+ ~ variable_name ~ " "+ ~ "=" ~ " "+ ~ val
 return_statement = {"return" ~ " "+ ~ value}
 
 function_name = {ASCII_ALPHANUMERIC+}
-function = {keyword ~ " "+ ~ function_name ~ " "* ~ "()" ~ " "+ ~ "{"+ ~ (" "+ ~ statement)* ~ "}"}
+function = {keyword ~ " "+ ~ function_name ~ " "* ~ "()" ~ " "+ ~ "{"+ ~ (" "* ~ statement)* ~ "}"}
 
 negation = {"-" ~ value}
 complement = {"~" ~ (variable_name | value)}
