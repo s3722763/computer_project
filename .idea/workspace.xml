@@ -13,10 +13,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="698b3807-82ce-468a-8f23-1984fa380b30" name="Default Changelist" comment="">
+<<<<<<< HEAD
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/compiler/ast.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/compiler/ast.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/compiler/clexor.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/compiler/clexor.rs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/compiler/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/compiler/mod.rs" afterDir="false" />
+=======
+      <change beforePath="$PROJECT_DIR$/.idea/computer_project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/computer_project.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
+>>>>>>> d83944ad858611b6edf2a372a5f09f1a8cbe6031
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -116,7 +121,12 @@
       <workItem from="1565319281401" duration="2301000" />
       <workItem from="1565851086567" duration="84000" />
       <workItem from="1565851186678" duration="4947000" />
+<<<<<<< HEAD
       <workItem from="1565922030699" duration="5590000" />
+=======
+      <workItem from="1565922030699" duration="1777000" />
+      <workItem from="1566011028849" duration="63000" />
+>>>>>>> d83944ad858611b6edf2a372a5f09f1a8cbe6031
     </task>
     <servers />
   </component>
