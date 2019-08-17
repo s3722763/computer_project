@@ -13,15 +13,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="698b3807-82ce-468a-8f23-1984fa380b30" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.lock" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Cargo.toml" beforeDir="false" afterPath="$PROJECT_DIR$/Cargo.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/c.pest" beforeDir="false" afterPath="$PROJECT_DIR$/lexor/c.pest" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/program/main.c" beforeDir="false" afterPath="$PROJECT_DIR$/program/main.c" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/program/program.asm" beforeDir="false" afterPath="$PROJECT_DIR$/program/program.asm" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/compiler/ast.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/compiler/ast.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/compiler/clexor.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/compiler/clexor.rs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/compiler/mod.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/compiler/mod.rs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/computer_project.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/computer_project.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.rs" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.rs" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -110,6 +102,7 @@
       <workItem from="1565851086567" duration="84000" />
       <workItem from="1565851186678" duration="4947000" />
       <workItem from="1565922030699" duration="1777000" />
+      <workItem from="1566011028849" duration="63000" />
     </task>
     <servers />
   </component>
