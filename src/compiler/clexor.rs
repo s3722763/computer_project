@@ -24,11 +24,10 @@ pub enum Keyword{
     None
 }
 
-#[derive(Clone)]
 pub struct CFunction {
     pub keyword: Keyword,
     pub name: String,
-    pub return_value: Value
+    pub statements: Option<Vec<ASTNode>>
 }
 
 pub struct KeywordError {
@@ -73,24 +72,34 @@ impl CFunction {
         let result = CFunction {
             keyword: Keyword::None,
             name: String::from(""),
-            return_value: Value::new()
+            statements: None
         };
 
         result
     }
+
+    pub fn AddStatement(&mut self, node: ASTNode) {
+        match &mut self.statements {
+            Some(nodes) => {
+                nodes.push(node);
+            },
+            None => {
+                let mut new_tree: Vec<ASTNode> = Vec::new();
+                new_tree.push(node);
+                self.statements = Some(new_tree);
+            }
+            _ => {}
+        }
+    }
 }
 
-fn get_keyword(keyword: &str) -> Result<Keyword, KeywordError> {
-    let result: Result<Keyword, KeywordError>;
+fn get_keyword(keyword: &str) -> Option<Keyword> {
+    let mut result = None;
 
     if keyword == "int" {
-        result = Ok(Keyword::Int);
+        result = Some(Keyword::Int);
     } else if keyword == "void" {
-        result = Ok(Keyword::Void);
-    } else {
-        let reason = format!("{} {} {}", "Keyword", keyword,"does not exist");
-        let error = KeywordError::new(reason);
-        result = Err(error);
+        result = Some(Keyword::Void);
     }
 
     result
@@ -119,18 +128,15 @@ fn parse_function(function_rules: Pairs<Rule>) -> CFunction{
                 let value = pair.as_str();
                 let keyword = get_keyword(value);
                 match keyword {
-                    Ok(key) => {
+                    Some(key) => {
                         if function.keyword == Keyword::None {
                             function.keyword = key;
                         } else {
                             println!("Function {} already as a keyword. Cannot define multiple.", function.name);
                             error_count = error_count + 1;
                         }
-                    }
-                    Err(err) => {
-                        println!("Function {}: {}", function.name, err.reason);
-                        error_count = error_count + 1;
-                    }
+                    },
+                    _ => {}
                 }
             }
             Rule::function_name => {
@@ -143,7 +149,8 @@ fn parse_function(function_rules: Pairs<Rule>) -> CFunction{
                 }
             }
             Rule::statement => {
-                parse_statement(pair.into_inner());
+                let statement_node = parse_statement(pair.into_inner());
+                function.AddStatement(statement_node);
                 //parse_statement();
             }
             _ =>{
