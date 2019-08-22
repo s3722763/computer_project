@@ -150,7 +150,9 @@ fn parse_function(function_rules: Pairs<Rule>) -> CFunction{
             }
             Rule::statement => {
                 let statement_node = parse_statement(pair.into_inner());
+                dbg!(statement_node.value.is_some());
                 function.AddStatement(statement_node);
+                dbg!(function.statements.is_some());
                 //parse_statement();
             }
             _ =>{
@@ -169,8 +171,11 @@ fn parse_statement(pairs: Pairs<Rule>) -> ASTNode {
         match pair.as_rule() {
             Rule::operation => {},
             Rule::return_statement => {
-                let return_value = String::from(pair.as_str());
-                let node = ASTNode::new(NodeType::Return, Some(return_value));
+                //Assume the next rule si to do with a constant value
+                let value = pair.into_inner().as_str();
+
+                //let return_value = String::from(pair.as_str());
+                let node = ASTNode::new(NodeType::Return, Some(String::from(value)));
 
                 statement_node.AddNode(node);
 

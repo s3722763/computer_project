@@ -1,6 +1,6 @@
 use super::clexor;
 
-#[derive(Clone)]
+#[derive(Clone, Debug)]
 pub enum NodeType {
     FunctionDeclaration,
     Value,
@@ -47,6 +47,8 @@ impl ASTNode {
             }
             _ => {}
         }
+
+        dbg!(self.nodes.is_some());
     }
 }
 
@@ -54,12 +56,13 @@ pub fn function_to_assembly(function: clexor::CFunction) -> String {
     let mut asm = String::new();
 
     if function.name.eq_ignore_ascii_case("main") {
-        asm.push_str(".glob _main");
-        asm.push_str("_main:");
+        asm.push_str(".glob _main\n");
+        asm.push_str("_main:\n");
     }
 
     for statement in function.statements {
-        statement_to_assembly(statement);
+        let statement = statement_to_assembly(statement);
+        asm.push_str(statement.as_str());
     }
 
     asm
@@ -71,7 +74,8 @@ fn statement_to_assembly(statement: Vec<ASTNode>) -> String {
     for part in statement {
         match part.nodes {
             Some(p) => {
-                statement_to_assembly(p);
+                let statement = statement_to_assembly(p);
+                asm_temp.push_str(statement.as_str());
             },
             None => {
                 /*If it gets here, means that the statement does not contain any more parts*/
@@ -79,14 +83,14 @@ fn statement_to_assembly(statement: Vec<ASTNode>) -> String {
                     NodeType::Return => {
                         match part.value {
                             Some(p) => {
-                                asm_temp.push_str(format!("movl ${}, %eax\nret\n", p).as_str());
+                                asm_temp.push_str(format!("\tmovl ${}, %eax\n\tret\n", p).as_str());
                             },
                             None => {
-                                asm_temp.push_str("ret\n");
+                                asm_temp.push_str("\tret\n");
                             }
                         }
                     },
-                    _ => {}
+                    _ => { dbg!(part.function); }
                 }
             }
         }
